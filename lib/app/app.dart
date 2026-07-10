@@ -8,14 +8,10 @@ class EMSConfiguratorApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'EMS Configurator',
-
-      debugShowCheckedModeBanner: false,
-
-      theme: AppTheme.light(),
-
-      home: AppRouter.home(),
-    );
+    return MaterialApp.router(
+    routerConfig: appRouter,
+    debugShowCheckedModeBanner: false,
+    theme: AppTheme.light(),
+);
   }
 }
