@@ -12,59 +12,69 @@ class DashboardPage extends StatelessWidget {
 
       title: "Dashboard",
 
-      child: Center(
+      child: Padding(
+  padding: const EdgeInsets.all(24),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
 
-        child: Card(
+      Text(
+        "Selamat Datang 👋",
+        style: Theme.of(context).textTheme.headlineMedium,
+      ),
 
-          child: SizedBox(
+      const SizedBox(height: 8),
 
-            width: 700,
+      Text(
+        "EMS Configurator Desktop",
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
 
-            height: 420,
+      const SizedBox(height: 30),
 
-            child: Padding(
+      Expanded(
+        child: GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+          childAspectRatio: 2.4,
+          children: const [
 
-              padding: const EdgeInsets.all(30),
-
-              child: Column(
-
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-
-                children: [
-
-                  Text(
-                    "Selamat Datang",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineMedium,
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  const Divider(),
-
-                  const SizedBox(height: 20),
-
-                  const Text(
-                    "EMS Configurator Desktop",
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  const Text(
-                    "Software konfigurasi perangkat EMS Ecosystem.",
-                  ),
-
-                ],
-              ),
+            StatusCard(
+              title: "Device",
+              value: "Disconnected",
+              icon: Icons.usb,
+              color: Colors.red,
             ),
-          ),
+
+            StatusCard(
+              title: "COM Port",
+              value: "-",
+              icon: Icons.cable,
+              color: Colors.blue,
+            ),
+
+            StatusCard(
+              title: "MQTT",
+              value: "Disconnected",
+              icon: Icons.cloud,
+              color: Colors.orange,
+            ),
+
+            StatusCard(
+              title: "WiFi",
+              value: "Not Connected",
+              icon: Icons.wifi,
+              color: Colors.green,
+            ),
+
+          ],
         ),
       ),
+
+    ],
+  ),
+),
     );
   }
 }
