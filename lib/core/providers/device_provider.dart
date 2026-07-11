@@ -1,39 +1,140 @@
 import 'package:flutter/material.dart';
 
 import '../models/device_info.dart';
+import '../models/device_model.dart';
+import '../services/device_dummy_service.dart';
 
 class DeviceProvider extends ChangeNotifier {
+  //-------------------------------------------------------
+  // Dashboard Device Info
+  //-------------------------------------------------------
 
-  final DeviceInfo _device = DeviceInfo();
+  DeviceInfo _device = DeviceInfo(
+    connected: false,
+    deviceId: "-",
+    firmware: "-",
+    comPort: "-",
+    wifi: "-",
+    mqtt: "Disconnected",
+  );
 
   DeviceInfo get device => _device;
 
+  //-------------------------------------------------------
+  // Device Discovery
+  //-------------------------------------------------------
+
+  final List<DeviceModel> _devices = [];
+
+  List<DeviceModel> get devices => List.unmodifiable(_devices);
+
+  DeviceModel? _selectedDevice;
+
+  DeviceModel? get selectedDevice => _selectedDevice;
+
+  //-------------------------------------------------------
+  // Dashboard Function
+  //-------------------------------------------------------
+
   void updateDevice({
-    bool? connected,
-    String? deviceId,
-    String? firmware,
-    String? comPort,
-    String? wifi,
-    String? mqtt,
+    required bool connected,
+    required String deviceId,
+    required String firmware,
+    required String comPort,
+    required String wifi,
+    required String mqtt,
   }) {
-    if (connected != null) _device.connected = connected;
-    if (deviceId != null) _device.deviceId = deviceId;
-    if (firmware != null) _device.firmware = firmware;
-    if (comPort != null) _device.comPort = comPort;
-    if (wifi != null) _device.wifi = wifi;
-    if (mqtt != null) _device.mqtt = mqtt;
+    _device = DeviceInfo(
+      connected: connected,
+      deviceId: deviceId,
+      firmware: firmware,
+      comPort: comPort,
+      wifi: wifi,
+      mqtt: mqtt,
+    );
 
     notifyListeners();
   }
 
   void disconnect() {
-    _device.connected = false;
-    _device.deviceId = "-";
-    _device.firmware = "-";
-    _device.comPort = "-";
-    _device.wifi = "-";
-    _device.mqtt = "Disconnected";
+    _device = DeviceInfo(
+      connected: false,
+      deviceId: "-",
+      firmware: "-",
+      comPort: "-",
+      wifi: "-",
+      mqtt: "Disconnected",
+    );
 
     notifyListeners();
+  }
+
+  //-------------------------------------------------------
+  // Discovery Function
+  //-------------------------------------------------------
+
+  void loadDummyDevices() {
+    _devices
+      ..clear()
+      ..addAll(DeviceDummyService.getDevices());
+
+    notifyListeners();
+  }
+
+  void refreshDevices() {
+    loadDummyDevices();
+  }
+
+  void selectDevice(DeviceModel device) {
+    _selectedDevice = device;
+
+    notifyListeners();
+  }
+
+  void clearSelection() {
+    _selectedDevice = null;
+
+    notifyListeners();
+  }
+
+  //-------------------------------------------------------
+  // Future Communication Layer
+  //-------------------------------------------------------
+
+  Future<void> scanSerial() async {
+    // Sprint 3
+  }
+
+  Future<void> scanUDP() async {
+    // Sprint 3
+  }
+
+  Future<void> scanHttp() async {
+    // Sprint 3
+  }
+
+  Future<void> connectDevice(DeviceModel device) async {
+    updateDevice(
+      connected: true,
+      deviceId: device.id,
+      firmware: device.firmware,
+      comPort: "COM5",
+      wifi: "Office",
+      mqtt: "Connected",
+    );
+
+    notifyListeners();
+  }
+
+  Future<void> disconnectDevice() async {
+    disconnect();
+  }
+
+  Future<void> restartDevice() async {
+    // Sprint 3
+  }
+
+  Future<void> factoryReset() async {
+    // Sprint 4
   }
 }
