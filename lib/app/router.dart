@@ -1,58 +1,80 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import '../../core/providers/device_provider.dart';
 
 import '../features/dashboard/dashboard_page.dart';
 import '../features/device/device_page.dart';
+import '../features/wifi/wifi_page.dart';
 import '../features/mqtt/mqtt_page.dart';
-import '../features/pzem/pzem_page.dart';
 import '../features/relay/relay_page.dart';
+import '../features/pzem/pzem_page.dart';
 import '../features/serial/serial_page.dart';
 import '../features/settings/settings_page.dart';
-import '../features/wifi/wifi_page.dart';
+
+import '../shared/layout/app_layout.dart';
 
 final appRouter = GoRouter(
   initialLocation: "/",
 
   routes: [
 
-    GoRoute(
-      path: "/",
-      builder: (context, state) => const DashboardPage(),
-    ),
+    ShellRoute(
 
-    GoRoute(
-      path: "/device",
-      builder: (context, state) => const DevicePage(),
-    ),
+      builder: (context, state, child) {
 
-    GoRoute(
-      path: "/wifi",
-      builder: (context, state) => const WifiPage(),
-    ),
+        return AppLayout(
+          child: child,
+        );
 
-    GoRoute(
-      path: "/mqtt",
-      builder: (context, state) => const MQTTPage(),
-    ),
+      },
 
-    GoRoute(
-      path: "/relay",
-      builder: (context, state) => const RelayPage(),
-    ),
+      routes: [
 
-    GoRoute(
-      path: "/pzem",
-      builder: (context, state) => const PZEMPage(),
-    ),
+        GoRoute(
+          path: "/",
+          builder: (context, state) => const DashboardPage(),
+        ),
 
-    GoRoute(
-      path: "/serial",
-      builder: (context, state) => const SerialPage(),
-    ),
+        GoRoute(
+          path: "/device",
+          builder: (context, state) => const DevicePage(),
+        ),
 
-    GoRoute(
-      path: "/settings",
-      builder: (context, state) => const SettingsPage(),
+        GoRoute(
+          path: "/wifi",
+          builder: (context, state) => const WifiPage(),
+        ),
+
+        GoRoute(
+          path: "/mqtt",
+          builder: (context, state) => const MQTTPage(),
+        ),
+
+        GoRoute(
+          path: "/relay",
+          builder: (context, state) => const RelayPage(),
+        ),
+
+        GoRoute(
+          path: "/pzem",
+          builder: (context, state) => const PZEMPage(),
+        ),
+
+        GoRoute(
+          path: "/serial",
+          builder: (context, state) => const SerialPage(),
+        ),
+
+        GoRoute(
+          path: "/settings",
+          builder: (context, state) => const SettingsPage(),
+        ),
+
+      ],
+
     ),
 
   ],
+
 );

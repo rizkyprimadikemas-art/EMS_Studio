@@ -9,9 +9,10 @@ class EMSConfiguratorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-    routerConfig: appRouter,
-    debugShowCheckedModeBanner: false,
-    theme: AppTheme.light(),
-);
+      debugShowCheckedModeBanner: false,
+      title: 'EMS Configurator',
+      theme: AppTheme.light(),
+      routerConfig: appRouter,
+    );
   }
 }
